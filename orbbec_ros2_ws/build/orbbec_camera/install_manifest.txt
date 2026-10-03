@@ -1,0 +1,7 @@
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libOrbbecSDK.so
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libOrbbecSDK.so.1.10
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//liblive555.so
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libdepthengine.so
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libOrbbecSDK.so.1.10.37
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libob_usb.so
+/home/jetson/orbbec_ros2_ws/install/orbbec_camera/lib//libdepthengine.so.2.0

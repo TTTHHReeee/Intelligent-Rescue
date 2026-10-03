@@ -1,0 +1,127 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "blue",
+      "score": 0.9693986773490906,
+      "points": [
+        [
+          267.6822509765625,
+          363.81939697265625
+        ],
+        [
+          417.0426025390625,
+          363.81939697265625
+        ],
+        [
+          417.0426025390625,
+          545.6316528320312
+        ],
+        [
+          267.6822509765625,
+          545.6316528320312
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "blue",
+      "score": 0.9573057889938354,
+      "points": [
+        [
+          239.500244140625,
+          166.00784301757812
+        ],
+        [
+          320.49609375,
+          166.00784301757812
+        ],
+        [
+          320.49609375,
+          255.04904174804688
+        ],
+        [
+          239.500244140625,
+          255.04904174804688
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "blue",
+      "score": 0.9372833967208862,
+      "points": [
+        [
+          447.9128112792969,
+          257.25738525390625
+        ],
+        [
+          593.69482421875,
+          257.25738525390625
+        ],
+        [
+          593.69482421875,
+          378.85809326171875
+        ],
+        [
+          447.9128112792969,
+          378.85809326171875
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "blue",
+      "score": 0.9196226596832275,
+      "points": [
+        [
+          490.946533203125,
+          169.6937255859375
+        ],
+        [
+          595.4039306640625,
+          169.6937255859375
+        ],
+        [
+          595.4039306640625,
+          255.83901977539062
+        ],
+        [
+          490.946533203125,
+          255.83901977539062
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "..\\..\\images\\train\\frame_000235.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

@@ -1,0 +1,98 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "zone2",
+      "score": 0.9201227426528931,
+      "points": [
+        [
+          211.3573760986328,
+          84.35397338867188
+        ],
+        [
+          453.42828369140625,
+          84.35397338867188
+        ],
+        [
+          453.42828369140625,
+          163.78939819335938
+        ],
+        [
+          211.3573760986328,
+          163.78939819335938
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "green",
+      "score": 0.6859564185142517,
+      "points": [
+        [
+          20.396968841552734,
+          45.461753845214844
+        ],
+        [
+          46.90981674194336,
+          45.461753845214844
+        ],
+        [
+          46.90981674194336,
+          66.2464828491211
+        ],
+        [
+          20.396968841552734,
+          66.2464828491211
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": 0.6024380922317505,
+      "points": [
+        [
+          0.5776920318603516,
+          37.27732849121094
+        ],
+        [
+          13.598438262939453,
+          37.27732849121094
+        ],
+        [
+          13.598438262939453,
+          51.46717834472656
+        ],
+        [
+          0.5776920318603516,
+          51.46717834472656
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "image_001133.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

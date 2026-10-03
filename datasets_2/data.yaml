@@ -1,0 +1,11 @@
+path: D:/桌面/工训/datasets_2
+train: images/train
+val: images/val
+
+names:
+  0: orange
+  1: green
+  2: blue
+  3: black
+  4: zone1
+  5: zone2

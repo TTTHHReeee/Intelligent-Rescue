@@ -1,0 +1,127 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.9876775145530701,
+      "points": [
+        [
+          365.1536560058594,
+          367.39935302734375
+        ],
+        [
+          486.8647766113281,
+          367.39935302734375
+        ],
+        [
+          486.8647766113281,
+          489.24346923828125
+        ],
+        [
+          365.1536560058594,
+          489.24346923828125
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    },
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.9840325117111206,
+      "points": [
+        [
+          160.30010986328125,
+          276.8683166503906
+        ],
+        [
+          255.709228515625,
+          276.8683166503906
+        ],
+        [
+          255.709228515625,
+          366.3991394042969
+        ],
+        [
+          160.30010986328125,
+          366.3991394042969
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    },
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.9645151495933533,
+      "points": [
+        [
+          365.3800048828125,
+          304.669677734375
+        ],
+        [
+          452.0250244140625,
+          304.669677734375
+        ],
+        [
+          452.0250244140625,
+          372.9317626953125
+        ],
+        [
+          365.3800048828125,
+          372.9317626953125
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    },
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.7618604898452759,
+      "points": [
+        [
+          218.1240234375,
+          407.3662109375
+        ],
+        [
+          348.13238525390625,
+          407.3662109375
+        ],
+        [
+          348.13238525390625,
+          596.8671875
+        ],
+        [
+          218.1240234375,
+          596.8671875
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    }
+  ],
+  "imagePath": "frame_000092.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

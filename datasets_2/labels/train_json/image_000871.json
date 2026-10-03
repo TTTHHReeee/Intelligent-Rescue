@@ -1,0 +1,214 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "green",
+      "score": null,
+      "points": [
+        [
+          623.06848,
+          213.68224
+        ],
+        [
+          637.5088,
+          213.68224
+        ],
+        [
+          637.5088,
+          230.73888
+        ],
+        [
+          623.06848,
+          230.73888
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "zone1",
+      "score": null,
+      "points": [
+        [
+          4.042560000000002,
+          356.70207999999997
+        ],
+        [
+          291.27648,
+          356.70207999999997
+        ],
+        [
+          291.27648,
+          637.55328
+        ],
+        [
+          4.042560000000002,
+          637.55328
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "orange",
+      "score": null,
+      "points": [
+        [
+          475.31904,
+          189.68064
+        ],
+        [
+          500.85120000000006,
+          189.68064
+        ],
+        [
+          500.85120000000006,
+          208.82943999999998
+        ],
+        [
+          475.31904,
+          208.82943999999998
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": null,
+      "points": [
+        [
+          596.3536,
+          219.45855999999998
+        ],
+        [
+          608.9891200000001,
+          219.45855999999998
+        ],
+        [
+          608.9891200000001,
+          230.28864
+        ],
+        [
+          596.3536,
+          230.28864
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": null,
+      "points": [
+        [
+          610.79424,
+          217.65344000000002
+        ],
+        [
+          619.81952,
+          217.65344000000002
+        ],
+        [
+          619.81952,
+          230.28896
+        ],
+        [
+          610.79424,
+          230.28896
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "green",
+      "score": null,
+      "points": [
+        [
+          589.85536,
+          208.26719999999997
+        ],
+        [
+          606.10112,
+          208.26719999999997
+        ],
+        [
+          606.10112,
+          223.42944
+        ],
+        [
+          589.85536,
+          223.42944
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "green",
+      "score": null,
+      "points": [
+        [
+          606.1011199999999,
+          205.01824
+        ],
+        [
+          623.0688,
+          205.01824
+        ],
+        [
+          623.0688,
+          222.34688
+        ],
+        [
+          606.1011199999999,
+          222.34688
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "image_000871.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

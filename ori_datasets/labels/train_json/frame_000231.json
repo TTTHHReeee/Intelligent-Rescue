@@ -1,0 +1,69 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "blue",
+      "score": 0.9276313781738281,
+      "points": [
+        [
+          260.31707763671875,
+          472.0652770996094
+        ],
+        [
+          500.43780517578125,
+          472.0652770996094
+        ],
+        [
+          500.43780517578125,
+          634.3553466796875
+        ],
+        [
+          260.31707763671875,
+          634.3553466796875
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "blue",
+      "score": 0.8211240768432617,
+      "points": [
+        [
+          436.64208984375,
+          263.13128662109375
+        ],
+        [
+          537.3643798828125,
+          263.13128662109375
+        ],
+        [
+          537.3643798828125,
+          367.94915771484375
+        ],
+        [
+          436.64208984375,
+          367.94915771484375
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "..\\..\\images\\train\\frame_000231.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

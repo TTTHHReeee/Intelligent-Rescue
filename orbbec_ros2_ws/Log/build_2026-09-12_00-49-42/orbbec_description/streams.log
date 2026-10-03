@@ -1,0 +1,107 @@
+[0.017s] Invoking command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake /home/jetson/orbbec_ros2_ws/src/OrbbecSDK_ROS2/orbbec_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jetson/orbbec_ros2_ws/install/orbbec_description
+[0.151s] -- The C compiler identification is GNU 11.4.0
+[0.264s] -- The CXX compiler identification is GNU 11.4.0
+[0.289s] -- Detecting C compiler ABI info
+[0.452s] -- Detecting C compiler ABI info - done
+[0.477s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.478s] -- Detecting C compile features
+[0.479s] -- Detecting C compile features - done
+[0.490s] -- Detecting CXX compiler ABI info
+[0.656s] -- Detecting CXX compiler ABI info - done
+[0.681s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.682s] -- Detecting CXX compile features
+[0.684s] -- Detecting CXX compile features - done
+[0.692s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.038s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.173s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.435s] -- Configuring done
+[1.445s] -- Generating done
+[1.449s] -- Build files have been written to: /home/jetson/orbbec_ros2_ws/build/orbbec_description
+[1.464s] Invoked command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake /home/jetson/orbbec_ros2_ws/src/OrbbecSDK_ROS2/orbbec_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jetson/orbbec_ros2_ws/install/orbbec_description
+[1.468s] Invoking command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake --build /home/jetson/orbbec_ros2_ws/build/orbbec_description -- -j6 -l6
+[1.544s] Invoked command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake --build /home/jetson/orbbec_ros2_ws/build/orbbec_description -- -j6 -l6
+[1.548s] Invoking command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake --install /home/jetson/orbbec_ros2_ws/build/orbbec_description
+[1.565s] -- Install configuration: ""
+[1.566s] -- Execute custom install script
+[1.567s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/launch/launch_utils.py
+[1.586s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/launch/view_model.launch.py
+[1.608s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/AstraPlus.stl
+[1.627s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/base_link.STL
+[1.646s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_bottom_screw_frame.STL
+[1.665s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_color_optical_frame.STL
+[1.683s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_colorl_frame.STL
+[1.701s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_depth_frame.STL
+[1.721s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_depth_optical_frame.STL
+[1.741s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_infra1_frame.STL
+[1.759s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/astra2/camera_infra1_optical_frame.STL
+[1.776s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/femto_bolt/femto_bolt.stl
+[1.796s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/base_link.STL
+[1.815s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_botter_screw_frame.STL
+[1.833s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_color_frame.STL
+[1.853s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_color_optical_frame.STL
+[1.872s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_depth_frame.STL
+[1.891s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra1_frame.STL
+[1.910s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra1_optical_frame.STL
+[1.928s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra2_frame.STL
+[1.946s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra2_optical_frame.STL
+[1.964s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/base_link.STL
+[1.984s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR1_frame.STL
+[2.001s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR1_optical_frame.STL
+[2.021s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR2_frame.STL
+[2.039s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR2_optical_frame.STL
+[2.058s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_bottom_screw_frame.STL
+[2.076s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_color_frame.STL
+[2.095s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_depth_frame.STL
+[2.113s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_imu_frame.STL
+[2.131s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_rgb_optical_frame.STL
+[2.150s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/base_link.STL
+[2.167s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_IMU_frame.STL
+[2.185s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_frame.STL
+[2.203s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_optical_frame.STL
+[2.220s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_screw_frame.STL
+[2.239s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_depth_frame.STL
+[2.258s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra1_frame.STL
+[2.278s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra1_optical_frame.STL
+[2.297s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra2_frame.STL
+[2.316s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra2_optical_frame.STL
+[2.335s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_bottom_screw_frame.STL
+[2.354s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_color_frame.STL
+[2.372s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_color_optical_frame.STL
+[2.391s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_depth_frame.STL
+[2.410s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_depth_optical_frame.STL
+[2.428s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_left_ir_frame.STL
+[2.446s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_left_ir_optical_frame.STL
+[2.464s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_link.STL
+[2.484s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_right_ir_frame.STL
+[2.502s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_right_ir_optical_frame.STL
+[2.522s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/astra2.urdf.xacro
+[2.540s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/femto_bolt.urdf.xacro
+[2.557s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/gemini2.urdf.xacro
+[2.574s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/gemini2L.urdf.xacro
+[2.593s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/gemini335L_336L.urdf.xacro
+[2.610s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/gemini_335_336.urdf.xacro
+[2.628s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_astra2.urdf.xacro
+[2.645s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_femto_bolt.urdf.xacro
+[2.664s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini2.urdf.xacro
+[2.682s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini2L.urdf.xacro
+[2.700s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini335L.urdf.xacro
+[2.717s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini336L.urdf.xacro
+[2.735s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini_335.urdf.xarco
+[2.753s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/urdf/test_gemini_336.urdf.xarco
+[2.801s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/rviz/urdf.rviz
+[2.820s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/ament_index/resource_index/package_run_dependencies/orbbec_description
+[2.839s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/ament_index/resource_index/parent_prefix_path/orbbec_description
+[2.857s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/environment/ament_prefix_path.sh
+[2.876s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/environment/ament_prefix_path.dsv
+[2.894s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/environment/path.sh
+[2.913s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/environment/path.dsv
+[2.932s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/local_setup.bash
+[2.951s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/local_setup.sh
+[2.970s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/local_setup.zsh
+[2.988s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/local_setup.dsv
+[3.006s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/package.dsv
+[3.025s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/ament_index/resource_index/packages/orbbec_description
+[3.044s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/cmake/orbbec_descriptionConfig.cmake
+[3.062s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/cmake/orbbec_descriptionConfig-version.cmake
+[3.082s] -- Symlinking: /home/jetson/orbbec_ros2_ws/install/orbbec_description/share/orbbec_description/package.xml
+[3.106s] Invoked command in '/home/jetson/orbbec_ros2_ws/build/orbbec_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/yahboom_ws/install/text_chat:/home/jetson/yahboom_ws/install/largemodel:/home/jetson/yahboom_ws/install/camera:/opt/ros/humble /usr/bin/cmake --install /home/jetson/orbbec_ros2_ws/build/orbbec_description

@@ -1,0 +1,98 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "zone2",
+      "score": 0.8671504259109497,
+      "points": [
+        [
+          215.38134765625,
+          157.14431762695312
+        ],
+        [
+          621.5546264648438,
+          157.14431762695312
+        ],
+        [
+          621.5546264648438,
+          237.89816284179688
+        ],
+        [
+          215.38134765625,
+          237.89816284179688
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "green",
+      "score": 0.7477102279663086,
+      "points": [
+        [
+          20.21035385131836,
+          169.78567504882812
+        ],
+        [
+          43.9576301574707,
+          169.78567504882812
+        ],
+        [
+          43.9576301574707,
+          191.25897216796875
+        ],
+        [
+          20.21035385131836,
+          191.25897216796875
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": 0.5510408282279968,
+      "points": [
+        [
+          7.968374252319336,
+          170.21066284179688
+        ],
+        [
+          20.533058166503906,
+          170.21066284179688
+        ],
+        [
+          20.533058166503906,
+          185.31414794921875
+        ],
+        [
+          7.968374252319336,
+          185.31414794921875
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "image_001120.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

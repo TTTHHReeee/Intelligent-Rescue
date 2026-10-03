@@ -1,0 +1,97 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "orange",
+      "score": null,
+      "points": [
+        [
+          298.6407766990291,
+          215.14563106796118
+        ],
+        [
+          431.6504854368932,
+          215.14563106796118
+        ],
+        [
+          431.6504854368932,
+          300.5825242718447
+        ],
+        [
+          298.6407766990291,
+          300.5825242718447
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "orange",
+      "score": null,
+      "points": [
+        [
+          503.495145631068,
+          273.3980582524272
+        ],
+        [
+          639.0,
+          273.3980582524272
+        ],
+        [
+          639.0,
+          385.04854368932035
+        ],
+        [
+          503.495145631068,
+          385.04854368932035
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "orange",
+      "score": null,
+      "points": [
+        [
+          156.89320388349518,
+          311.2621359223301
+        ],
+        [
+          366.6019417475728,
+          311.2621359223301
+        ],
+        [
+          366.6019417475728,
+          464.6601941747573
+        ],
+        [
+          156.89320388349518,
+          464.6601941747573
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "..\\..\\images\\train\\frame_000042.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640
+}

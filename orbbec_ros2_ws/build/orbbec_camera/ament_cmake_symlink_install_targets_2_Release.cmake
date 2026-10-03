@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/jetson/orbbec_ros2_ws/build/orbbec_camera/liborbbec_camera.so" "/home/jetson/orbbec_ros2_ws/build/orbbec_camera/libframe_latency.so" "TARGETS" "orbbec_camera" "frame_latency" "ARCHIVE_DESTINATION" "lib" "LIBRARY_DESTINATION" "lib" "RUNTIME_DESTINATION" "bin")

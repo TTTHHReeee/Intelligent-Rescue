@@ -1,0 +1,14 @@
+type: yolov8
+name: yolo26n
+provider: Ultralytics
+display_name: YOLO26n
+model_path: ./best.onnx
+iou_threshold: 0.45
+conf_threshold: 0.25
+classes:
+  - orange
+  - green
+  - blue
+  - black
+  - zone1
+  - zone2

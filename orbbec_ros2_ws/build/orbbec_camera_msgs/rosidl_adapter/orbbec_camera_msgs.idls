@@ -1,0 +1,14 @@
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/DeviceInfo.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/Extrinsics.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/Metadata.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/IMUInfo.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/RGBD.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:msg/StreamProfile.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/GetBool.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/GetDeviceInfo.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/GetCameraInfo.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/GetInt32.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/GetString.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/SetInt32.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/SetString.idl
+/home/jetson/orbbec_ros2_ws/build/orbbec_camera_msgs/rosidl_adapter/orbbec_camera_msgs:srv/SetStreamProfile.idl
