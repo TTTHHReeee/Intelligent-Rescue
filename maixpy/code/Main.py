@@ -1,49 +1,98 @@
-"""MaixCAM2 camera + YOLO26 detection demo.
-
-The generic NN backend is useful with MaixPy runtimes whose YOLO26 wrapper
-cannot distinguish bbox and class outputs when the model has exactly four
-classes.  The MUD file still contains the normal six YOLO26 output tensors.
-"""
+"""MaixCAM2 摄像头检测演示：读取 YOLO26 的六路输出并绘制检测结果。"""
 
 import math
 
 import numpy as np
 
-from maix import app, camera, display, image, nn, tensor, time
+from maix import app, camera, display, image, nn, tensor, time, uart
 
 
 # ==================== User-adjustable settings ====================
+device = "/dev/ttyS4"
+serial = uart.UART(device, 115200)
+# 设备上的 MUD 描述文件；同目录下的 axmodel 由 MUD 引用加载。
 MODEL_PATH = "/root/my_model/model_9540.mud"
-# Use the existing six-output model without the native four-class parser.
-# Set False only when the device's nn.YOLO26 parser supports this model.
+# 某些模型（例如四类别时）的 bbox/class 输出通道数相同，原生 YOLO26
+# 解析器可能无法区分它们；True 表示用 nn.NN 读取原始输出并手动解码。
 USE_GENERIC_NN = True
-# Keep camera dimensions equal to the model input to avoid resize/padding drift.
+# 摄像头尺寸应与模型输入一致，避免缩放或补边影响网格坐标还原。
 CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 640
+# 检测分数下限；越高误检通常越少，但可能漏检。
 CONFIDENCE_THRESHOLD = 0.50
+# 仅传给原生 nn.YOLO26.detect()；手动解码 one-to-one 输出不使用此参数。
 IOU_THRESHOLD = 0.45
-# YOLO26 one-to-one heads do not need NMS; IOU_THRESHOLD is for API compatibility.
+# True 时额外打印类别名及分数。
 PRINT_DETECTIONS = False
 
+# 检测框和标签的显示样式。
 BOX_COLOR = image.COLOR_RED
 TEXT_COLOR = image.COLOR_GREEN
 TEXT_SCALE = 1.0
 BOX_THICKNESS = 1
 
+# 应与 MUD 的 mean/scale 元数据一致；此配置把 0~255 像素归一化到 0~1。
 MODEL_MEAN = [0.0, 0.0, 0.0]
 MODEL_SCALE = [1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0]
+
+#类ID映射表
+CLASS_ID={
+    0 : "orange", # 15
+    1 : "green", #  5
+    2 : "blue", # 0
+    3 : "black", # 10
+    4 : "zone1", # 红色安全区
+    5 : "zone2", # 蓝色安全区
+}
+ZONE = 4 # 默认为红色安全区
+
+#阶段配置表 罗列了各个阶段的检测目标（targit_ID），抓取目标的优先级（priority_ID），以及判断是否需要过滤已在安全区中的目标（priority_ID）
+Phase_config = {
+    "PH0":{
+            "target_ID" : [ZONE], # 目标：安全区
+            "filter_frames" : False,
+            "priority_ID":{ZONE: 0},
+    },
+    "PH1":{
+            "target_ID" : [1], # 目标：5 | 优先级->距离 | 执行2次 | -(抓1个)->PH0->PH1-(抓1个)->PH0->PH2 
+            "filter_frames" : True,
+            "priority_ID": {1: 0},
+    },
+    "PH2":{
+            "target_ID" : [0, 1, 3], # 目标：5，10， 15 | 优先级->距离 | 执行1次 | -(get_score>=15)->PH0->PH3
+            "filter_frames" : True,
+            "priority_ID" : {0: 0, 3: 1, 1: 2},
+    },
+
+
+} 
+
+current_phase = None #当前阶段
+default_phase = "PH1" #默认阶段
+
+
+
+flag = 1 # 阶段转换标志
+number = 0 # 记录从执行抓取到安全区一整个流程的次数
+
+
+Y = 0 # 初始化y 用于临时保存当下y坐标
+Y_thres = 400 # y坐标阈值 用于判断目标是否达到已被抓取的标准
+
+
 # ================================================================
 
 
 def get_result_value(result, name, default=None):
-    """Read a detection field from either an object or a dictionary."""
+    """兼容手动解码的字典结果与 nn.YOLO26 返回的对象结果。"""
     if isinstance(result, dict):
         return result.get(name, default)
     return getattr(result, name, default)
 
 
 def draw_detection(frame, result, labels):
-    """Draw one detector result on a MaixPy image."""
+    """根据 x/y/w/h 画框，并标出类别名和置信度。"""
+    # x、y 是框左上角坐标，w、h 是宽高；class_id 是 labels 的下标。
     x = int(get_result_value(result, "x", 0))
     y = int(get_result_value(result, "y", 0))
     w = int(get_result_value(result, "w", 0))
@@ -51,6 +100,7 @@ def draw_detection(frame, result, labels):
     class_id = int(get_result_value(result, "class_id", 0))
     score = float(get_result_value(result, "score", 0.0))
 
+    # 标签缺失时保留类别编号，避免画框阶段因下标越界而中断。
     if 0 <= class_id < len(labels):
         class_name = str(labels[class_id])
     else:
@@ -66,6 +116,7 @@ def draw_detection(frame, result, labels):
     )
 
     text = "{} {:.1f}%".format(class_name, score * 100.0)
+    # 将文字放在框上方；靠近图像顶端时限制在可显示区域内。
     text_y = max(0, y - 24)
     frame.draw_string(
         x,
@@ -79,7 +130,8 @@ def draw_detection(frame, result, labels):
 
 
 def model_labels(model):
-    """Read labels from MUD metadata on different MaixPy builds."""
+    """兼容不同 MaixPy 版本，从 MUD 元数据读取类别名。"""
+    # 优先调用封装好的标签接口；旧版本没有该接口时再解析逗号分隔的 labels。
     try:
         labels = model.extra_info_labels()
         if labels:
@@ -99,21 +151,25 @@ def model_labels(model):
 
 
 def generic_output_groups(model):
-    """Find the three bbox and three class heads in a YOLO26 MUD model."""
+    """从六路输出中找出三个尺度各自的边框头和分类头。"""
     bbox = []
     cls = []
 
+    # 每个尺度有一张 bbox 网格和一张分类网格，共三对、六个张量。
+    # 这里按节点名称识别类型，不靠通道数猜测：四类别时两者通道数都为 4。
     for info in model.outputs_info():
         name = str(info.name)
         shape = list(info.shape)
         if len(shape) != 4:
             continue
         lower_name = name.lower()
+        # cv2 是边框距离 (左/上/右/下)，cv3 是分类 logit；名字来自 ONNX 输出节点。
         if "one2one_cv2" in lower_name:
             bbox.append(info)
         elif "one2one_cv3" in lower_name:
             cls.append(info)
 
+    # 640x640 输入通常产生 80x80、40x40、20x20 三层网格；按面积排序配对。
     key = lambda info: int(info.shape[1]) * int(info.shape[2])
     bbox.sort(key=key, reverse=True)
     cls.sort(key=key, reverse=True)
@@ -125,6 +181,8 @@ def generic_output_groups(model):
             )
         )
 
+    # 本模型输出采用 NHWC：[批次, 网格高, 网格宽, 通道数]。
+    # bbox 的最后一维固定为 4；cls 的最后一维等于模型类别数。
     for bbox_info, cls_info in zip(bbox, cls):
         if list(bbox_info.shape[:3]) != list(cls_info.shape[:3]):
             raise RuntimeError("bbox and cls grid sizes do not match")
@@ -141,7 +199,7 @@ def generic_output_groups(model):
 
 
 def sigmoid(value):
-    """Numerically safe sigmoid for class logits."""
+    """将分类 logit 转为 0~1 分数，并避免指数运算溢出。"""
     value = float(value)
     if value >= 0.0:
         exp_value = math.exp(-value)
@@ -151,9 +209,11 @@ def sigmoid(value):
 
 
 def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
-    """Run and decode the six raw YOLO26 NHWC output tensors."""
+    """推理六路原始输出，逐尺度还原为检测框、类别和分数。"""
     if frame.width() != CAMERA_WIDTH or frame.height() != CAMERA_HEIGHT:
         raise RuntimeError("Camera frame size differs from the configured model input")
+    # forward_image 负责图像预处理和 NPU 推理。输入尺寸相同，因此 FIT_CONTAIN
+    # 不会产生额外留白；copy_result 保留本帧输出，dual_buff_wait 等待推理完成。
     outputs = model.forward_image(
         frame,
         mean=MODEL_MEAN,
@@ -166,8 +226,11 @@ def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
         return []
 
     results = []
+    # 分类输出是 logit，先把概率阈值反算为 logit，筛选后再调用 sigmoid。
     logit_threshold = math.log(CONFIDENCE_THRESHOLD / (1.0 - CONFIDENCE_THRESHOLD))
     for bbox_info, cls_info in zip(bbox_infos, cls_infos):
+        # 按输出层名称取张量，转成 NumPy 浮点数组；[0] 去掉 batch=1 这一维。
+        # 例如 bbox 为 [80, 80, 4]，cls 为 [80, 80, 类别数]。
         bbox_array = tensor.tensor_to_numpy_float32(
             outputs[bbox_info.name], copy=False
         )[0]
@@ -177,6 +240,8 @@ def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
 
         grid_height = int(bbox_info.shape[1])
         grid_width = int(bbox_info.shape[2])
+        # 网格来自模型检测头的下采样特征图，并非先检测到目标后才生成。
+        # 640 输入下，80/40/20 网格的每格分别对应原图 8/16/32 像素。
         stride_x = float(CAMERA_WIDTH) / grid_width
         stride_y = float(CAMERA_HEIGHT) / grid_height
         if tuple(bbox_array.shape) != tuple(bbox_info.shape[1:]):
@@ -184,7 +249,8 @@ def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
         if tuple(cls_array.shape) != tuple(cls_info.shape[1:]):
             raise RuntimeError("Unexpected class tensor layout")
 
-        # Filter all cells in NumPy; only decode candidates above threshold.
+        # 每个网格位置都是一个候选预测，不一定有目标；先取其最高分类分数。
+        # np.nonzero 返回过阈值位置的 (行, 列)，即后面的 (grid_y, grid_x)。
         class_ids = np.argmax(cls_array, axis=-1)
         logits = np.max(cls_array, axis=-1)
         rows, cols = np.nonzero(np.isfinite(logits) & (logits >= logit_threshold))
@@ -193,10 +259,10 @@ def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
             if not np.all(np.isfinite(distances)):
                 continue
             left, top, right, bottom = (float(v) for v in distances)
+            # cv2 的四个距离以网格步长为单位；相对网格中心换算成原图角点。
             center_x = (int(grid_x) + 0.5) * stride_x
             center_y = (int(grid_y) + 0.5) * stride_y
-            # Clip both corners, rather than clipping the origin and retaining
-            # a width/height that belonged to an off-screen box.
+            # 两个角点分别裁到图像范围内，避免得到超出屏幕的框宽高。
             x1 = max(0.0, min(center_x - left * stride_x, float(CAMERA_WIDTH)))
             y1 = max(0.0, min(center_y - top * stride_y, float(CAMERA_HEIGHT)))
             x2 = max(0.0, min(center_x + right * stride_x, float(CAMERA_WIDTH)))
@@ -214,10 +280,60 @@ def generic_yolo26_detect(model, frame, bbox_infos, cls_infos):
                 }
             )
 
+    # 每个有效候选变成一个检测字典；one-to-one 输出在此不做 NMS。
+    # x/y 是左上角，w/h 是尺寸，class_id 是类别下标，score 是 sigmoid 后的分数。
     return results
 
+"""
+此方法功能：反映抓取过程 判断抓取到的目标是否符合要求 -> 不同阶段抓取任务和要求不同 分成俩部分 
+1. 阶段1和4：只抓一个，通过y反映距离，y达到阈值显示已抓取就进入阶段0
+2. 阶段2和3：首先通过y反映是否抓取到，然后抓取到的目标分数和需要达到某一阈值才能进入阶段0
+"""
+def judge_distance_score(y, goal):
+    global Y, flag    
+
+    if(y >= Y_thres):
+        flag = 0
+        print(f"已抓住目标{CLASS_ID[goal]}，准备进入下一工作阶段")
+        Y = 0 #刷新临时变量
+        return False      
+    else:
+        Y = y #更新y坐标
+        print(f"正在靠近目标{CLASS_ID[goal]}，当前 Y = {Y}")
+        return True 
+   
+
+
+def setting(frame,id, score, x_min, y_min, x_max, y_max):
+    #设置信息内容
+    msg = f'target_message:{id} : {score:.2f}'         
+    #信息设置
+    frame.draw_string(x_min, y_min, msg, color = image.COLOR_BLUE)
+    #标注框设置
+    frame.draw_rect(x_min, y_min, x_max-x_min, y_max-y_min, color = image.COLOR_BLUE)
+
+
+# 此方法功能：在搜寻目标过程中 区分已进入安全区的目标和未进入的
+def is_inside(box_a, box_b):
+    return box_a[0]>box_b[0] and box_a[1]<box_b[1] and box_a[2]<box_b[2] and box_a[3]<box_b[3]
+
+
+# 抓取过程结束 此方法功能：判断抓取目标是否已进入安全区，包含阶段切换的逻辑判断 （numbers记录流程次数）
+def judge_zone(y):
+    global flag, number,scoreflag1#当这里的y达到阈值时，判断scoreflag0的值，使scoreflag1=scoreflag1+scoreflag0，做完这个后给scoreflag0清零，scoreflag1即为累积分数
+    if y > Y_thres:
+        print("已到达安全区") 
+        number += 1                                                                     
+        if number > 1 :
+            flag = 2
+            return
+
+    else:
+        print(f"正在靠近安全区，当前距离为 Y={y}")
+        return 
 
 def main():
+    # 需要用 log(p/(1-p)) 反算阈值，因此阈值不能取 0 或 1。
     if not 0.0 < CONFIDENCE_THRESHOLD < 1.0:
         raise ValueError("CONFIDENCE_THRESHOLD must be between 0 and 1, exclusive")
     print("Loading model: {}".format(MODEL_PATH))
@@ -227,6 +343,7 @@ def main():
     cls_infos = None
 
     if USE_GENERIC_NN:
+        # 通用 NN 返回原始张量；先核对输入形状、类别数和六路输出布局。
         print("Using generic NN with manual YOLO26 post-processing")
         generic_model = nn.NN(MODEL_PATH, dual_buff=False)
         inputs = generic_model.inputs_info()
@@ -234,16 +351,19 @@ def main():
             raise RuntimeError("Set CAMERA_WIDTH/HEIGHT to the model's NHWC input size")
         labels = model_labels(generic_model)
         bbox_infos, cls_infos = generic_output_groups(generic_model)
+        # 标签数必须等于分类输出的通道数，否则 class_id 无法正确映射到名称。
         if len(labels) != cls_infos[0].shape[3]:
             raise RuntimeError("MUD label count does not match class output channels")
         input_type = generic_model.extra_info().get("input_type", "rgb")
         if input_type not in ("rgb", "bgr"):
             raise RuntimeError("Unsupported input_type: {}".format(input_type))
+        # 摄像头颜色顺序必须与 MUD 的 input_type 一致。
         input_format = (
             image.Format.FMT_RGB888 if input_type == "rgb" else image.Format.FMT_BGR888
         )
         print("Generic detector initialized with {} labels".format(len(labels)))
     else:
+        # 仅在设备上的原生 YOLO26 解析器能识别该模型时使用此分支。
         detector = nn.YOLO26(MODEL_PATH, dual_buff=False)
         labels = list(detector.labels)
         input_format = detector.input_format()
@@ -255,10 +375,13 @@ def main():
     print("Camera detection started")
     print("Press the device exit key to stop")
 
+    # 收到 app.need_exit() 退出请求时停止；逐帧完成采集、推理、画框和显示。
     while not app.need_exit():
         frame = cam.read()
+        # 摄像头暂时没有新帧时跳过本轮，不把空值传给模型。
         if frame is None:
             continue
+        # 原生检测器直接返回目标；通用 NN 则需要自行解码六路输出。
         if detector is not None:
             results = detector.detect(
                 frame,
@@ -270,29 +393,139 @@ def main():
                 generic_model, frame, bbox_infos, cls_infos
             )
 
+        # draw_detection 直接修改当前帧；最后将带框的帧显示到设备屏幕。
         detection_count = 0
-        length = len(results)
-        print("当前检测到{}个目标\n".format(length))
+        #length = len(results)
+        #print("当前检测到{}个目标\n".format(length))
         #print("Results: {}".format(results))
-        print(f"目标\t置信度\t当前帧率\t")
+        #print(f"目标\t置信度\t当前帧率\t")
+        
+        #阶段保护设置 防止死机
+        if current_phase == None or current_phase not in Phase_config or flag == 1:
+            print(f"-----\n检测开始，已将当前阶段切换为第 1 阶段{default_phase}！\n-----")
+            current_phase = default_phase 
+        
+
+        #阶段自动转换设置 （flag） | 注意阶段切换的条件【PH1，PH4】->抓一个->PH0 【PH2，PH3】->分数达到阈值->PH0
+        match flag:
+            case 2:
+                current_phase = "PH2" 
+                print(f"-----\n检测开始，已将当前阶段切换为第 2 阶段{current_phase}！\n-----")    
+            case 0:
+                #PH0阶段转换
+                current_phase = "PH0" 
+                print("-----\n目标抓取任务完成，已将当前阶段切换为PH0!\n-----")       
+        phase_cfg = Phase_config[current_phase] #保存当前阶段的信息
+        """
+        阶段切换内容
+        """
+        weights = phase_cfg["priority_ID"] # 保存每个阶段设置的目标优先级
+        Objects = phase_cfg["target_ID"] # 保存每个阶段应检测的目标
+        
+        #保存当前检测到的所有目标
+        candidates0 = []
+        #暂存当前检测到的目标中不在安全区的目标
+        candidates1 = []
+        #保存安全区的信息
+        zones_all = []
+        #保存安全区的坐标信息
+        zones_xy = []
         for result in results:
-            
-            class_name, score = draw_detection(frame, result, labels)
-            
+            # 画框
+            #class_name, score = draw_detection(frame, result, labels)
+            """
             if PRINT_DETECTIONS:
                 print("{}: {:.2f}".format(class_name, score))
-            detection_count += 1
+            """
+            x_min = int(get_result_value(result, "x", 0))
+            y_min = int(get_result_value(result, "y", 0))
+            w = int(get_result_value(result, "w", 0))
+            h = int(get_result_value(result, "h", 0))
+            x_max = x_min + w
+            y_max = y_min + h
+            class_id = int(get_result_value(result, "class_id", 0))
+            score = float(get_result_value(result, "score", 0.0))
             
+            # 如果目标不在当前阶段应检测的范围内，则跳过
+            detection_count += 1
+            if class_id not in Objects:
+                continue
+            candidates0.append((class_id, x_min, y_min, x_max, y_max, score))
+            
+            #将安全区与其它目标信息分别处理 frames和zones保存安全区的信息 candidates保存目标信息
+            if class_id == 6:
+                zones_all.append((class_id, x_min, y_min, x_max, y_max, score))
+                zones_xy.append((x_min, y_min, x_max, y_max))
 
-            print(f"{result["class_id"]}\t{result["score"]}\t{int(time.fps())}")
-        frame.draw_string(
-            8,
-            8,
-            "Objects: {}".format(detection_count),
-            color=TEXT_COLOR,
-            scale=TEXT_SCALE,
-        )
+            else:
+
+                #判断检测到的目标是否在安全区内
+                if phase_cfg["filter_frames"] and len(zones_xy) > 0:
+                    is_outside = not any(is_inside((x_min, y_min, x_max, y_max), f) for f in zones_xy )
+                    if is_outside:
+                        candidates1.append((class_id, x_min, y_min, x_max, y_max, score))
+                else:
+                    candidates1.append((class_id, x_min, y_min, x_max, y_max, score))  
+                    
+        #目标选择适用于所有阶段
+        candidates0 = [new_list for new_list in candidates1 if new_list[2] <= Y_thres] #筛选已抓取的目标 
+        candidates0.sort(key=lambda x: (weights.get(x[0],float("inf")), -x[4])) # 将candidates里面的元素 先按照权重进行排序， 当权重相同时再根据y_max进行排序
+        # 安全区按照y_max排序
+        zones_all.sort(key=lambda x: -x[4])
+        
+        send_data = None #初始化发送数据
+        
+        if  current_phase in "PH0":
+            print(f"-------\n当前阶段为{current_phase}\n-------")  
+            # 判断当前画面是否识别到安全区
+            if zones_all == []:
+                print("正在寻找安全区！")
+            else:
+                selected1 = zones_all[0]
+                cls1_id, x1_min, y1_min, x1_max, y1_max, score1= selected1
+                goal1 = cls1_id
+                
+                send_data = f"W{x1_min} {y1_min} {x1_max} {y1_max} 0L"
+                setting(frame, goal1, score1, x1_min, y1_min, x1_max, y1_max)
+                judge_zone(y1_min)
+                        
+
+        elif current_phase in ["PH1", "PH2"]:
+            #抓取前处理目标信息
+            if candidates0 == []:
+                print("正在寻找目标")
+            else:
+                selected0 = candidates0[0]
+                cls0_id, x0_min, y0_min, x0_max, y0_max, score0= selected0
+                goal0 = cls0_id
+                if goal0 in Objects: #判断当前目标是否属于当前阶段需检测的目标  
+                    print(f"-------\n当前阶段为{current_phase}\n-------")    
+                    print(f"当前的目标是：{CLASS_ID[goal0]}")
+                    
+                    send_data = f"W{x0_min} {y0_min} {x0_max} {y0_max} 0L"
+                    if judge_distance_score(y0_min, goal0):
+                        setting(goal0, score0, x0_min, y0_min, x0_max, y0_max)
+                else:
+                    print("!!!!!目标检测错误!!!!!\n!!!!!正在寻找新的目标!!!!!")        
+            # print("{}\t{}\t{}".format(
+            #     get_result_value(result, "class_id"),
+            #     get_result_value(result, "score"),
+            #     int(time.fps()),
+            # ))
+        # frame.draw_string(
+        #     8,
+        #     8,
+        #     "Objects: {}".format(detection_count),
+        #     color=TEXT_COLOR,
+        #     scale=TEXT_SCALE,
+        # )
         #print("FPS: {}".format(int(time.fps())))
+              # 发送数据
+        if send_data is not None:
+            print(f"发送数据 : {send_data}")
+            serial.write_str(send_data)
+        else:
+            pass  
         disp.show(frame)
 
 
