@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 from maix import app, camera, display, image, nn, tensor, time, uart
-
+import struct
 
 # ==================== User-adjustable settings ====================
 device = "/dev/ttyS4"
@@ -67,8 +67,7 @@ Phase_config = {
 
 } 
 
-current_phase = None #当前阶段
-default_phase = "PH1" #默认阶段
+
 
 
 
@@ -400,6 +399,8 @@ def main():
         #print("Results: {}".format(results))
         #print(f"目标\t置信度\t当前帧率\t")
         
+        current_phase = None #当前阶段
+        default_phase = "PH1" #默认阶段
         #阶段保护设置 防止死机
         if current_phase == None or current_phase not in Phase_config or flag == 1:
             print(f"-----\n检测开始，已将当前阶段切换为第 1 阶段{default_phase}！\n-----")
@@ -414,15 +415,17 @@ def main():
             case 0:
                 #PH0阶段转换
                 current_phase = "PH0" 
-                print("-----\n目标抓取任务完成，已将当前阶段切换为PH0!\n-----")       
+                print("-----\n目标抓取任务完成，已将当前阶段切换为PH0!\n-----")
+    
         phase_cfg = Phase_config[current_phase] #保存当前阶段的信息
         """
         阶段切换内容
         """
         weights = phase_cfg["priority_ID"] # 保存每个阶段设置的目标优先级
         Objects = phase_cfg["target_ID"] # 保存每个阶段应检测的目标
-        
         #保存当前检测到的所有目标
+        all = []
+        #保存当前需要抓取的物资
         candidates0 = []
         #暂存当前检测到的目标中不在安全区的目标
         candidates1 = []
@@ -450,7 +453,7 @@ def main():
             detection_count += 1
             if class_id not in Objects:
                 continue
-            candidates0.append((class_id, x_min, y_min, x_max, y_max, score))
+            all.append((class_id, x_min, y_min, x_max, y_max, score))
             
             #将安全区与其它目标信息分别处理 frames和zones保存安全区的信息 candidates保存目标信息
             if class_id == 6:
@@ -484,9 +487,26 @@ def main():
                 selected1 = zones_all[0]
                 cls1_id, x1_min, y1_min, x1_max, y1_max, score1= selected1
                 goal1 = cls1_id
-                
-                send_data = f"W{x1_min} {y1_min} {x1_max} {y1_max} 0L"
-                setting(frame, goal1, score1, x1_min, y1_min, x1_max, y1_max)
+                # 计算安全区的中心坐标
+                center_x1 = int(round((x1_max + x1_min) / 2 ))
+                center_y1 = int(round((y1_max + y1_min) / 2 ))
+                # print(f"十进制中心坐标 x:{center_x1} y:{center_y1}")
+                # x_min_yushu = x1_min % 100
+                # x_min_zhengshu = x1_min // 100  
+                # y_min_yushu = y1_min % 100
+                # y_min_zhengshu = y1_min // 100
+                # x_max_yushu = x1_max % 100
+                # x_max_zhengshu = x1_max // 100
+                # y_max_yushu = y1_max % 100
+                # y_max_zhengshu = y1_max // 100
+                center_x1_zhengshu = center_x1 // 100
+                center_x1_yushu = center_x1 % 100
+                center_y1_zhengshu = center_y1 // 100
+                center_y1_yushu = center_y1 % 100
+                # send_data = struct.pack(">8B", x_min_zhengshu, x_min_yushu, y_min_zhengshu, y_min_yushu, x_max_zhengshu, x_max_yushu, y_max_zhengshu, y_max_yushu)
+                send_data = struct.pack(">4H", center_x1_zhengshu, center_x1_yushu, center_y1_zhengshu, center_y1_yushu)
+                #send_data = f"W{x1_min} {y1_min} {x1_max} {y1_max} 0L"
+                setting(frame, goal1, score1, x1_min, y1_min, x1_max, y1_max)  
                 judge_zone(y1_min)
                         
 
@@ -501,10 +521,27 @@ def main():
                 if goal0 in Objects: #判断当前目标是否属于当前阶段需检测的目标  
                     print(f"-------\n当前阶段为{current_phase}\n-------")    
                     print(f"当前的目标是：{CLASS_ID[goal0]}")
-                    
-                    send_data = f"W{x0_min} {y0_min} {x0_max} {y0_max} 0L"
+                    # center_x2 = int(round((x0_max + x0_min) / 4 ))
+                    # center_y2 = int(round((y0_max + y0_min) / 4 ))
+                    # print(f"十进制中心坐标 x:{center_x2} y:{center_y2}")
+                    # x_min_yushu = x0_min % 100
+                    # x_min_zhengshu = x0_min // 100
+                    # y_min_yushu = y0_min % 100
+                    # y_min_zhengshu = y0_min // 100
+                    # x_max_yushu = x0_max % 100
+                    # x_max_zhengshu = x0_max // 100
+                    # y_max_yushu = y0_max % 100
+                    # y_max_zhengshu = y0_max // 100
+                    center_x0 = int(round((x0_max + x0_min) / 2 ))
+                    center_y0 = int(round((y0_max + y0_min) / 2 ))
+                    center_x0_zhengshu = center_x0 // 100
+                    center_x0_yushu = center_x0 % 100
+                    center_y0_zhengshu = center_y0 // 100
+                    center_y0_yushu = center_y0 % 100
+                    send_data = struct.pack(">4H", center_x0_zhengshu, center_x0_yushu, center_y0_zhengshu, center_y0_yushu)
+                    #send_data = f"W{x0_min} {y0_min} {x0_max} {y0_max} 0L"
                     if judge_distance_score(y0_min, goal0):
-                        setting(goal0, score0, x0_min, y0_min, x0_max, y0_max)
+                        setting(frame, goal0, score0, x0_min, y0_min, x0_max, y0_max)
                 else:
                     print("!!!!!目标检测错误!!!!!\n!!!!!正在寻找新的目标!!!!!")        
             # print("{}\t{}\t{}".format(
@@ -523,7 +560,8 @@ def main():
               # 发送数据
         if send_data is not None:
             print(f"发送数据 : {send_data}")
-            serial.write_str(send_data)
+            serial.write(send_data)
+            print("send success")
         else:
             pass  
         disp.show(frame)
