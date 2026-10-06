@@ -89,43 +89,6 @@ def get_result_value(result, name, default=None):
     return getattr(result, name, default)
 
 
-def draw_detection(frame, result, labels):
-    """根据 x/y/w/h 画框，并标出类别名和置信度。"""
-    # x、y 是框左上角坐标，w、h 是宽高；class_id 是 labels 的下标。
-    x = int(get_result_value(result, "x", 0))
-    y = int(get_result_value(result, "y", 0))
-    w = int(get_result_value(result, "w", 0))
-    h = int(get_result_value(result, "h", 0))
-    class_id = int(get_result_value(result, "class_id", 0))
-    score = float(get_result_value(result, "score", 0.0))
-
-    # 标签缺失时保留类别编号，避免画框阶段因下标越界而中断。
-    if 0 <= class_id < len(labels):
-        class_name = str(labels[class_id])
-    else:
-        class_name = "class_{}".format(class_id)
-
-    frame.draw_rect(
-        x,
-        y,
-        w,
-        h,
-        color=BOX_COLOR,
-        thickness=BOX_THICKNESS,
-    )
-
-    text = "{} {:.1f}%".format(class_name, score * 100.0)
-    # 将文字放在框上方；靠近图像顶端时限制在可显示区域内。
-    text_y = max(0, y - 24)
-    frame.draw_string(
-        x,
-        text_y,
-        text,
-        color=TEXT_COLOR,
-        scale=TEXT_SCALE,
-    )
-
-    return class_name, score
 
 
 def model_labels(model):
@@ -436,10 +399,7 @@ def main():
         for result in results:
             # 画框
             #class_name, score = draw_detection(frame, result, labels)
-            """
-            if PRINT_DETECTIONS:
-                print("{}: {:.2f}".format(class_name, score))
-            """
+
             x_min = int(get_result_value(result, "x", 0))
             y_min = int(get_result_value(result, "y", 0))
             w = int(get_result_value(result, "w", 0))
@@ -476,7 +436,7 @@ def main():
         # 安全区按照y_max排序
         zones_all.sort(key=lambda x: -x[4])
         
-        send_data = None #初始化发送数据
+        send_data = struct.pack(">4H", 3, 20, 3, 20) #初始化发送数据
         
         if  current_phase in "PH0":
             print(f"-------\n当前阶段为{current_phase}\n-------")  
@@ -486,26 +446,22 @@ def main():
             else:
                 selected1 = zones_all[0]
                 cls1_id, x1_min, y1_min, x1_max, y1_max, score1= selected1
+                
+                
+                print(f"x1_min: {x1_min}, y1_min: {y1_min}, x1_max: {x1_max}, y1_max: {y1_max}, score: {score1:.2f}")
+                
                 goal1 = cls1_id
                 # 计算安全区的中心坐标
                 center_x1 = int(round((x1_max + x1_min) / 2 ))
                 center_y1 = int(round((y1_max + y1_min) / 2 ))
-                # print(f"十进制中心坐标 x:{center_x1} y:{center_y1}")
-                # x_min_yushu = x1_min % 100
-                # x_min_zhengshu = x1_min // 100  
-                # y_min_yushu = y1_min % 100
-                # y_min_zhengshu = y1_min // 100
-                # x_max_yushu = x1_max % 100
-                # x_max_zhengshu = x1_max // 100
-                # y_max_yushu = y1_max % 100
-                # y_max_zhengshu = y1_max // 100
+
                 center_x1_zhengshu = center_x1 // 100
                 center_x1_yushu = center_x1 % 100
                 center_y1_zhengshu = center_y1 // 100
                 center_y1_yushu = center_y1 % 100
-                # send_data = struct.pack(">8B", x_min_zhengshu, x_min_yushu, y_min_zhengshu, y_min_yushu, x_max_zhengshu, x_max_yushu, y_max_zhengshu, y_max_yushu)
+
                 send_data = struct.pack(">4H", center_x1_zhengshu, center_x1_yushu, center_y1_zhengshu, center_y1_yushu)
-                #send_data = f"W{x1_min} {y1_min} {x1_max} {y1_max} 0L"
+
                 setting(frame, goal1, score1, x1_min, y1_min, x1_max, y1_max)  
                 judge_zone(y1_min)
                         
@@ -521,17 +477,7 @@ def main():
                 if goal0 in Objects: #判断当前目标是否属于当前阶段需检测的目标  
                     print(f"-------\n当前阶段为{current_phase}\n-------")    
                     print(f"当前的目标是：{CLASS_ID[goal0]}")
-                    # center_x2 = int(round((x0_max + x0_min) / 4 ))
-                    # center_y2 = int(round((y0_max + y0_min) / 4 ))
-                    # print(f"十进制中心坐标 x:{center_x2} y:{center_y2}")
-                    # x_min_yushu = x0_min % 100
-                    # x_min_zhengshu = x0_min // 100
-                    # y_min_yushu = y0_min % 100
-                    # y_min_zhengshu = y0_min // 100
-                    # x_max_yushu = x0_max % 100
-                    # x_max_zhengshu = x0_max // 100
-                    # y_max_yushu = y0_max % 100
-                    # y_max_zhengshu = y0_max // 100
+
                     center_x0 = int(round((x0_max + x0_min) / 2 ))
                     center_y0 = int(round((y0_max + y0_min) / 2 ))
                     center_x0_zhengshu = center_x0 // 100
@@ -544,19 +490,7 @@ def main():
                         setting(frame, goal0, score0, x0_min, y0_min, x0_max, y0_max)
                 else:
                     print("!!!!!目标检测错误!!!!!\n!!!!!正在寻找新的目标!!!!!")        
-            # print("{}\t{}\t{}".format(
-            #     get_result_value(result, "class_id"),
-            #     get_result_value(result, "score"),
-            #     int(time.fps()),
-            # ))
-        # frame.draw_string(
-        #     8,
-        #     8,
-        #     "Objects: {}".format(detection_count),
-        #     color=TEXT_COLOR,
-        #     scale=TEXT_SCALE,
-        # )
-        #print("FPS: {}".format(int(time.fps())))
+
               # 发送数据
         if send_data is not None:
             print(f"发送数据 : {send_data}")
