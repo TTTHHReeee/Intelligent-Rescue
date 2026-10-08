@@ -67,7 +67,8 @@ Phase_config = {
 
 } 
 
-
+DISTANCE_TOLERANCE = 20
+IMAGE_CENTER_X = CAMERA_WIDTH / 2
 
 
 
@@ -294,6 +295,9 @@ def judge_zone(y):
         print(f"正在靠近安全区，当前距离为 Y={y}")
         return 
 
+
+
+
 def main():
     # 需要用 log(p/(1-p)) 反算阈值，因此阈值不能取 0 或 1。
     if not 0.0 < CONFIDENCE_THRESHOLD < 1.0:
@@ -432,7 +436,10 @@ def main():
                     
         #目标选择适用于所有阶段
         candidates0 = [new_list for new_list in candidates1 if new_list[2] <= Y_thres] #筛选已抓取的目标 
-        candidates0.sort(key=lambda x: (weights.get(x[0],float("inf")), -x[4])) # 将candidates里面的元素 先按照权重进行排序， 当权重相同时再根据y_max进行排序
+
+        candidates0.sort(key=lambda x: (weights.get(x[0],float("inf")), -x[4]), ) # 将candidates里面的元素 先按照权重进行排序， 当权重相同时再根据y_max进行排序
+        
+        
         # 安全区按照y_max排序
         zones_all.sort(key=lambda x: -x[4])
         

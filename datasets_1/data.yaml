@@ -1,6 +1,6 @@
 path: D:/桌面/工训/datasets
-train: images/train
-val: images/val
+train: images/train_txt
+val: images/val_txt
 
 names:
   0: orange

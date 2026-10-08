@@ -1,0 +1,98 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "orange",
+      "score": 0.9856534004211426,
+      "points": [
+        [
+          389.12603759765625,
+          23.12615966796875
+        ],
+        [
+          552.107177734375,
+          23.12615966796875
+        ],
+        [
+          552.107177734375,
+          137.846923828125
+        ],
+        [
+          389.12603759765625,
+          137.846923828125
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "orange",
+      "score": 0.8936163187026978,
+      "points": [
+        [
+          0.468902587890625,
+          145.35415649414062
+        ],
+        [
+          228.35614013671875,
+          145.35415649414062
+        ],
+        [
+          228.35614013671875,
+          320.6194152832031
+        ],
+        [
+          0.468902587890625,
+          320.6194152832031
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "orange",
+      "score": 0.8232452869415283,
+      "points": [
+        [
+          325.72833251953125,
+          139.90872192382812
+        ],
+        [
+          567.7600708007812,
+          139.90872192382812
+        ],
+        [
+          567.7600708007812,
+          333.238037109375
+        ],
+        [
+          325.72833251953125,
+          333.238037109375
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "frame_000057.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

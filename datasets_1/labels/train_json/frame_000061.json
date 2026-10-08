@@ -1,0 +1,98 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.9794192314147949,
+      "points": [
+        [
+          311.22161865234375,
+          152.55059814453125
+        ],
+        [
+          456.1260986328125,
+          152.55059814453125
+        ],
+        [
+          456.1260986328125,
+          258.30133056640625
+        ],
+        [
+          311.22161865234375,
+          258.30133056640625
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    },
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.8974854946136475,
+      "points": [
+        [
+          393.54205322265625,
+          258.817626953125
+        ],
+        [
+          585.0582885742188,
+          258.817626953125
+        ],
+        [
+          585.0582885742188,
+          455.6361083984375
+        ],
+        [
+          393.54205322265625,
+          455.6361083984375
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    },
+    {
+      "kie_linking": [],
+      "label": "orange",
+      "score": 0.5133868455886841,
+      "points": [
+        [
+          1.32403564453125,
+          289.6778564453125
+        ],
+        [
+          262.04522705078125,
+          289.6778564453125
+        ],
+        [
+          262.04522705078125,
+          502.67230224609375
+        ],
+        [
+          1.32403564453125,
+          502.67230224609375
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {}
+    }
+  ],
+  "imagePath": "frame_000061.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}

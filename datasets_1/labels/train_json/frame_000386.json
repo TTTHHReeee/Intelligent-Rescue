@@ -1,0 +1,127 @@
+{
+  "version": "3.3.5",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "black",
+      "score": 0.94560706615448,
+      "points": [
+        [
+          27.54730224609375,
+          454.58306884765625
+        ],
+        [
+          138.5520477294922,
+          454.58306884765625
+        ],
+        [
+          138.5520477294922,
+          553.1122436523438
+        ],
+        [
+          27.54730224609375,
+          553.1122436523438
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": 0.9323679208755493,
+      "points": [
+        [
+          157.59298706054688,
+          346.77069091796875
+        ],
+        [
+          234.21072387695312,
+          346.77069091796875
+        ],
+        [
+          234.21072387695312,
+          411.7662353515625
+        ],
+        [
+          157.59298706054688,
+          411.7662353515625
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": 0.9298849701881409,
+      "points": [
+        [
+          229.24545288085938,
+          531.8501586914062
+        ],
+        [
+          331.8824157714844,
+          531.8501586914062
+        ],
+        [
+          331.8824157714844,
+          639.8787231445312
+        ],
+        [
+          229.24545288085938,
+          639.8787231445312
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    },
+    {
+      "label": "black",
+      "score": 0.8913767337799072,
+      "points": [
+        [
+          316.1094970703125,
+          414.3864440917969
+        ],
+        [
+          396.1778564453125,
+          414.3864440917969
+        ],
+        [
+          396.1778564453125,
+          500.8877258300781
+        ],
+        [
+          316.1094970703125,
+          500.8877258300781
+        ]
+      ],
+      "group_id": null,
+      "description": null,
+      "difficult": false,
+      "shape_type": "rectangle",
+      "flags": {},
+      "attributes": {},
+      "kie_linking": []
+    }
+  ],
+  "imagePath": "frame_000386.jpg",
+  "imageData": null,
+  "imageHeight": 640,
+  "imageWidth": 640,
+  "description": ""
+}
